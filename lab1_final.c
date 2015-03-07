@@ -1,7 +1,7 @@
 // Lab1.cpp: определяет точку входа для консольного приложения.
 //
 
-#include "stdio.h"
+#include "stdafx.h"
 #include "stdlib.h"
 #include "string.h"
 
@@ -77,6 +77,7 @@ struct homonyms
 {
 	char homonyms_surname[15];
 	int count;
+	char name_of_class;
 };
 
 int main()
@@ -114,7 +115,7 @@ int main()
 	for (i = 0; i < (number_of_pupils - 1); i++)
 	{
 		number_of_homonyms1 = 1;
-		for (j = 1; j < number_of_pupils; j++)
+		for (j = i+1; j < number_of_pupils; j++)
 		{
 			temp = strcmp(ppl[i].surname, ppl[j].surname);
 			if (temp == 0)
@@ -124,17 +125,12 @@ int main()
 			}
 		}
 		cls[i].count = number_of_homonyms1;
-		printf("The number of homonyms with %s\r surnames are: %d\n", cls[i].homonyms_surname, cls[i].count);
-	}
-	if (number_of_homonyms1 == 1)
-	{
-		printf("There are not homonyms in the school\n");
-		return 0;
+		printf("The number of homonyms with %s\r surnames are: %d\n\n", cls[i].homonyms_surname, cls[i].count);
 	}
 	for (i = 0; i < (number_of_pupils - 1); i++)
 	{
 		number_of_homonyms2 = 1;
-		for (j = 1; j < number_of_pupils; j++)
+		for (j = i+1; j < number_of_pupils; j++)
 		{
 			temp = strcmp(ppl[i].surname, ppl[j].surname);
 			if ((temp == 0) && (ppl[i].number_of_class == ppl[j].number_of_class))
@@ -143,41 +139,28 @@ int main()
 				strcpy(cls[i].homonyms_surname, ppl[j].surname);
 			}
 		}
-		if (number_of_homonyms1 == 1)
-		{
-			printf("There are not homonyms in the parallel classes\n");
-			return 0;
-		}
 		cls[i].count = number_of_homonyms2;
-		printf("The number of homonyms with %s\r surnames in parallel classes are: %d\n", cls[i].homonyms_surname, cls[i].count);
-	}
-	if (number_of_homonyms2 == 1)
-	{
-		printf("There are not homonyms in parallel classes\n");
-		return 0;
+		printf("The number of homonyms with %s\r surnames in %d classes are: %d\n\n", cls[i].homonyms_surname, ppl[i].number_of_class, cls[i].count);
 	}
 	for (i = 0; i < (number_of_pupils - 1); i++)
 	{
 		number_of_homonyms3 = 1;
-		for (j = 1; j < number_of_pupils; j++)
+		for (j = i+1; j < number_of_pupils; j++)
 		{
 			temp = strcmp(ppl[i].surname, ppl[j].surname);
 			if ((temp == 0) && (ppl[i].number_of_class == ppl[j].number_of_class) && (ppl[i].name_of_class == ppl[j].name_of_class))
 			{
 				number_of_homonyms3++;
 				strcpy(cls[i].homonyms_surname, ppl[j].surname);
+				cls[i].name_of_class = ppl[j].name_of_class;
 			}
 		}
 		cls[i].count = number_of_homonyms3;
-		printf("The number of homonyms with %s\r surnames in one class are: %d\n", cls[i].homonyms_surname, cls[i].count);
-	}
-	if (number_of_homonyms3 == 1)
-	{
-		printf("There are not homonyms in the one class\n");
-		return 0;
+		printf("The number of homonyms with %s\r surnames in %d%c class are: %d\n\n", cls[i].homonyms_surname, ppl[i].number_of_class, cls[i].name_of_class, cls[i].count);
 	}
 	free(ppl);
 	free(cls);
 	system("pause");
 	return 0;
 }
+
